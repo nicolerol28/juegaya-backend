@@ -1,18 +1,18 @@
 package com.juegaya.backend.cancha;
 
+import com.juegaya.backend.shared.EntidadAuditable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "canchas")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Cancha {
+public class Cancha extends EntidadAuditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,12 +31,4 @@ public class Cancha {
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal precioBase;
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime fechaCreacion;
-
-    @PrePersist
-    protected void onCreate() {
-        this.fechaCreacion = LocalDateTime.now();
-    }
 }

@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -58,6 +60,27 @@ public class GlobalExceptionHandler {
                 mensaje
         );
         problema.setTitle("Parámetro inválido");
+        return problema;
+    }
+
+    @ExceptionHandler(ReglaDeNegocioException.class)
+    public ProblemDetail handleReglaDeNegocio(ReglaDeNegocioException ex) {
+        ProblemDetail problema = ProblemDetail.forStatusAndDetail(
+                HttpStatus.UNPROCESSABLE_ENTITY,
+                ex.getMessage()
+        );
+        problema.setTitle("Regla de negocio violada");
+        return problema;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handleGenerico(Exception ex) {
+        log.error("Error no controlado: ", ex);
+        ProblemDetail problema = ProblemDetail.forStatusAndDetail(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "Ocurrió un error inesperado. Intenta de nuevo más tarde."
+        );
+        problema.setTitle("Error interno");
         return problema;
     }
 }

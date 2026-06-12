@@ -1,17 +1,17 @@
 package com.juegaya.backend.usuario;
 
+import com.juegaya.backend.shared.EntidadAuditable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "usuarios")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Usuario {
+public class Usuario extends EntidadAuditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,12 +29,4 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Rol rol;
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime fechaCreacion;
-
-    @PrePersist
-    protected void onCreate() {
-        this.fechaCreacion = LocalDateTime.now();
-    }
 }

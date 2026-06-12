@@ -5,6 +5,7 @@ import com.juegaya.backend.usuario.dto.RegistroUsuarioDTO;
 import com.juegaya.backend.usuario.dto.UsuarioResponseDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UsuarioService {
@@ -18,6 +19,7 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     public UsuarioResponseDTO registrar(RegistroUsuarioDTO dto) {
 
         if (usuarioRepository.existsByEmail(dto.email())) {

@@ -6,6 +6,7 @@ import com.juegaya.backend.cancha.dto.CrearCanchaDTO;
 import com.juegaya.backend.shared.exception.RecursoNoEncontradoException;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CanchaService {
@@ -16,6 +17,7 @@ public class CanchaService {
         this.canchaRepository = canchaRepository;
     }
 
+    @Transactional
     public CanchaResponseDTO crear(CrearCanchaDTO dto) {
         Cancha cancha = new Cancha();
         cancha.setNombre(dto.nombre());
@@ -27,6 +29,7 @@ public class CanchaService {
         return toResponseDTO(guardada);
     }
 
+    @Transactional(readOnly = true)
     public List<CanchaResponseDTO> listarTodas() {
         return canchaRepository.findAll()
                 .stream()
@@ -41,26 +44,27 @@ public class CanchaService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public CanchaResponseDTO obtenerPorId(Long id) {
         Cancha cancha = buscarEntidadPorId(id);
         return toResponseDTO(cancha);
     }
 
+    @Transactional
     public CanchaResponseDTO actualizar(Long id, ActualizarCanchaDTO dto) {
         Cancha cancha = buscarEntidadPorId(id);
         cancha.setNombre(dto.nombre());
         cancha.setSuperficie(dto.superficie());
         cancha.setEstado(dto.estado());
         cancha.setPrecioBase(dto.precioBase());
-        Cancha actualizada = canchaRepository.save(cancha);
-        return toResponseDTO(actualizada);
+        return toResponseDTO(cancha);
     }
 
+    @Transactional
     public CanchaResponseDTO cambiarEstado(Long id, EstadoCancha nuevoEstado) {
         Cancha cancha = buscarEntidadPorId(id);
         cancha.setEstado(nuevoEstado);
-        Cancha actualizada = canchaRepository.save(cancha);
-        return toResponseDTO(actualizada);
+        return toResponseDTO(cancha);
     }
 
     private Cancha buscarEntidadPorId(Long id) {
