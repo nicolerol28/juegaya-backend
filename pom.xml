@@ -11,8 +11,8 @@
 	<groupId>com.juegaya</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
-	<description/>
+    <name>juegaya-backend</name>
+    <description>API REST para reserva de canchas de tenis</description>
 	<url/>
 	<licenses>
 		<license/>
