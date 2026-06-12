@@ -3,6 +3,7 @@ package com.juegaya.backend.shared.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -81,6 +82,16 @@ public class GlobalExceptionHandler {
                 "Ocurrió un error inesperado. Intenta de nuevo más tarde."
         );
         problema.setTitle("Error interno");
+        return problema;
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ProblemDetail handleParametroFaltante(MissingServletRequestParameterException ex) {
+        ProblemDetail problema = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                "Falta el parámetro requerido: " + ex.getParameterName()
+        );
+        problema.setTitle("Parámetro faltante");
         return problema;
     }
 }
