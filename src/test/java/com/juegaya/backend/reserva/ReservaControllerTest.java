@@ -3,6 +3,9 @@ package com.juegaya.backend.reserva;
 import tools.jackson.databind.ObjectMapper;
 import com.juegaya.backend.reserva.dto.CrearReservaDTO;
 import com.juegaya.backend.reserva.dto.ReservaResponseDTO;
+import com.juegaya.backend.security.JwtService;
+import com.juegaya.backend.security.SecurityConfig;
+import com.juegaya.backend.security.UsuarioDetailsService;
 import com.juegaya.backend.shared.exception.GlobalExceptionHandler;
 import com.juegaya.backend.shared.exception.RecursoNoEncontradoException;
 import com.juegaya.backend.shared.exception.ReglaDeNegocioException;
@@ -12,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -31,7 +35,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ReservaController.class)
-@Import(GlobalExceptionHandler.class)
+@Import({GlobalExceptionHandler.class, SecurityConfig.class})
+@WithMockUser
 @DisplayName("ReservaController")
 class ReservaControllerTest {
 
@@ -39,6 +44,8 @@ class ReservaControllerTest {
     @Autowired private ObjectMapper objectMapper;
 
     @MockitoBean private ReservaService reservaService;
+    @MockitoBean private JwtService jwtService;
+    @MockitoBean private UsuarioDetailsService usuarioDetailsService;
 
     private static final Long USUARIO_ID = 1L;
     private static final Long CANCHA_ID = 10L;

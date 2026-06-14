@@ -1,6 +1,7 @@
 package com.juegaya.backend.usuario;
 
 import com.juegaya.backend.shared.exception.RecursoDuplicadoException;
+import com.juegaya.backend.shared.exception.RecursoNoEncontradoException;
 import com.juegaya.backend.usuario.dto.RegistroUsuarioDTO;
 import com.juegaya.backend.usuario.dto.UsuarioResponseDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,6 +36,12 @@ public class UsuarioService {
         Usuario guardado = usuarioRepository.save(usuario);
 
         return toResponseDTO(guardado);
+    }
+
+    public Usuario buscarPorEmail(String email) {
+        return usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RecursoNoEncontradoException(
+                        "Usuario no encontrado: " + email));
     }
 
     private UsuarioResponseDTO toResponseDTO(Usuario usuario) {

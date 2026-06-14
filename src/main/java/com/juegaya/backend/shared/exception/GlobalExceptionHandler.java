@@ -15,6 +15,16 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(AutenticacionException.class)
+    public ProblemDetail handleAutenticacion(AutenticacionException ex) {
+        ProblemDetail problema = ProblemDetail.forStatusAndDetail(
+                HttpStatus.UNAUTHORIZED,
+                ex.getMessage()
+        );
+        problema.setTitle("No autenticado");
+        return problema;
+    }
+
     @ExceptionHandler(RecursoDuplicadoException.class)
     public ProblemDetail handleRecursoDuplicado(RecursoDuplicadoException ex) {
         ProblemDetail problema = ProblemDetail.forStatusAndDetail(
