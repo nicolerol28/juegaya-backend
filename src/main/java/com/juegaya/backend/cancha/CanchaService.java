@@ -37,6 +37,7 @@ public class CanchaService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<CanchaResponseDTO> buscarPorNombre(String nombre) {
         return canchaRepository.findByNombreContainingIgnoreCase(nombre)
                 .stream()

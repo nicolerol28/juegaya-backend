@@ -140,7 +140,6 @@ public class ReservaService {
                         "No existe una reserva con id " + id));
     }
 
-    @Transactional(readOnly = true)
     private ReservaResponseDTO toResponseDTO(Reserva reserva) {
         return new ReservaResponseDTO(
                 reserva.getId(),

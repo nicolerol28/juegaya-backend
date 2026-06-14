@@ -21,8 +21,6 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
             @Param("inicio") LocalDateTime inicio,
             @Param("fin") LocalDateTime fin);
 
-    List<Reserva> findByUsuarioId(Long usuarioId);
-
     // Contar reservas activas futuras de un usuario (límite de 5)
     @Query("""
            SELECT COUNT(r) FROM Reserva r

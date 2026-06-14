@@ -1,11 +1,9 @@
 package com.juegaya.backend.reserva;
 
+import com.juegaya.backend.security.*;
 import tools.jackson.databind.ObjectMapper;
 import com.juegaya.backend.reserva.dto.CrearReservaDTO;
 import com.juegaya.backend.reserva.dto.ReservaResponseDTO;
-import com.juegaya.backend.security.JwtService;
-import com.juegaya.backend.security.SecurityConfig;
-import com.juegaya.backend.security.UsuarioDetailsService;
 import com.juegaya.backend.shared.exception.GlobalExceptionHandler;
 import com.juegaya.backend.shared.exception.RecursoNoEncontradoException;
 import com.juegaya.backend.shared.exception.ReglaDeNegocioException;
@@ -46,6 +44,9 @@ class ReservaControllerTest {
     @MockitoBean private ReservaService reservaService;
     @MockitoBean private JwtService jwtService;
     @MockitoBean private UsuarioDetailsService usuarioDetailsService;
+    @MockitoBean private JwtAuthenticationEntryPoint authenticationEntryPoint;
+    @MockitoBean private JwtAccessDeniedHandler accessDeniedHandler;
+
 
     private static final Long USUARIO_ID = 1L;
     private static final Long CANCHA_ID = 10L;
